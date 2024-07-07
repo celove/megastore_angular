@@ -20,8 +20,9 @@ export class LoginComponent {
   // http = inject(HttpClient)
   onLogin(): void {
     console.log('loginn');
-    this.authService.login(this.username, this.password);
-    this.router.navigateByUrl('/home');
+    this.authService.login(this.username, this.password).subscribe(() => {
+      this.router.navigateByUrl('/home');
+    });
     // this.authService.login({ username: this.username, password: this.password }).subscribe(
     //   () => this.router.navigateByUrl('/home'),
     //   error => console.error(error)
