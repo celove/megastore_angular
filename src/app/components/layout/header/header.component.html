@@ -3,22 +3,11 @@
         <p-button icon="pi pi-angle-right" [rounded]="true" [text]="true" (click)="toggleSidebar()" size="large"/>
         <img class="logo-header" src="assets/logo-color.png" alt="logo" height="80">
       </ng-template>
-    <ng-template pTemplate="end">
-      <button pButton type="button" label="Voltar" icon="pi pi-angle-left" class="p-button-contrast" outlined="true" (click)="back()"></button>
+    <ng-template pTemplate="end" class="end-buttons">
+      <button pButton type="button" [rounded]="true" [text]="true" icon="pi pi-angle-left" class="p-button-contrast" outlined="true" (click)="back()"></button>
       
-      <button pButton type="button" label="Logout" icon="pi pi-power-off" class="p-button-danger" (click)="logout()"></button>
+      <button pButton type="button" [rounded]="true" [text]="true" icon="pi pi-power-off" class="p-button-danger" (click)="logout()"></button>
     </ng-template>
-    <ul>
-      <li pMenuItem>
-        <a href="#">Home</a>
-      </li>
-      <li pMenuItem>
-        <a href="#">About</a>
-      </li>
-      <li pMenuItem>
-        <a href="#">Contact</a>
-      </li>
-    </ul>
   </p-menubar>
   <p-sidebar [(visible)]="sidebarVisible" [modal]="true" position="left" styleClass="ui-sidebar-sm">
     <p-panelMenu [model]="sideMenuItems"></p-panelMenu>

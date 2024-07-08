@@ -5,12 +5,15 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { error } from 'console';
+import { CheckboxModule } from 'primeng/checkbox';
+import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
-  imports: [FormsModule],
+  imports: [FormsModule, CheckboxModule, PasswordModule, ButtonModule],
   providers: [],
   styleUrls: ['./login.component.scss'],
 })

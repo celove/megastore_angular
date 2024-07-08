@@ -22,7 +22,7 @@
 						<td>{{user.email}}</td>
                         <td>{{maskPhone(user.phone)}}</td>
                         
-                        <td >
+                        <td class="options">
 							<p-button icon="pi pi-eye" [rounded]="true" severity="info" [outlined]="true" [routerLink]="['/user', user.id]" />
 							<p-button class="delete-button" icon="pi pi-times" [rounded]="true" severity="danger" [outlined]="true" (click)="confirm($event, user)" />
 						</td>

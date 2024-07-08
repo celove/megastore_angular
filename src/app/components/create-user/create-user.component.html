@@ -63,7 +63,7 @@
                     <div class="field col">
                         <label htmlFor="cep">CEP</label>
                         <input pInputText [disabled]="fieldsDisabled" [(ngModel)]="user.address.cep" id="cep" name="cep" type="text"
-                            (blur)="onBlurCep(user.address.cep)" required />
+                            (blur)="onBlurCep(user.address.cep)" required  mask="00000-000"/>
                         <div *ngIf="userForm.controls['cep']?.invalid && (userForm.controls['cep']?.dirty || userForm.controls['cep']?.touched)"
                             class="p-error">
                             <small *ngIf="userForm.controls['cep'].errors?.['required']">CEP é obrigatório.</small>

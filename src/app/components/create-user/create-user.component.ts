@@ -11,6 +11,7 @@ import { PanelModule } from 'primeng/panel';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { LoadingService } from '../../services/auth/loading.service';
 
 @Component({
   selector: 'app-create-user',
@@ -24,6 +25,7 @@ export class CreateUserComponent {
   router = inject(Router);
   userService = inject(UserService);
   messageService = inject(MessageService);
+  loadingService = inject(LoadingService);
   @ViewChild('userForm') userForm!: NgForm;
   user = this.userService.newUser();
   fieldsDisabled = true;
@@ -45,14 +47,19 @@ export class CreateUserComponent {
   }
 
   onBlurCep(value: string | number) {
+    this.loadingService.load();
     cep(value)
       .then(add => {
-        console.log(add);
-
         this.user.address.city = add.city;
         this.user.address.state = add.state;
         this.user.address.neighborhood = add.neighborhood;
         this.user.address.street = add.street;
+      })
+      .catch(err => {
+        this.messageService.add({ severity: 'warn', summary: 'Erro', detail: 'Cep não encontrado!' });
+      })
+      .finally(()=> {
+        this.loadingService.loaded();
       })
   }
 
