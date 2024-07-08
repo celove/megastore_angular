@@ -1,10 +1,12 @@
 <p-menubar>
     <ng-template pTemplate="start">
-        <button type="button" pButton icon="pi pi-bars" (click)="toggleSidebar()" class="p-mr-2"><img src="assets/logo.png" alt="logo" height="160"></button>
-        
+        <p-button icon="pi pi-angle-right" [rounded]="true" [text]="true" (click)="toggleSidebar()" size="large"/>
+        <img class="logo-header" src="assets/logo-color.png" alt="logo" height="80">
       </ng-template>
     <ng-template pTemplate="end">
-      <button pButton type="button" label="Logout" icon="pi pi-power-off" class="p-button-danger"></button>
+      <button pButton type="button" label="Voltar" icon="pi pi-angle-left" class="p-button-contrast" outlined="true" (click)="back()"></button>
+      
+      <button pButton type="button" label="Logout" icon="pi pi-power-off" class="p-button-danger" (click)="logout()"></button>
     </ng-template>
     <ul>
       <li pMenuItem>
