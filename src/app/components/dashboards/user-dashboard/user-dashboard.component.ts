@@ -8,11 +8,17 @@ import { Router, RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { NgxMaskDirective, NgxMaskService, provideNgxMask } from 'ngx-mask';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { DialogModule } from 'primeng/dialog';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [FieldsetModule, TableModule, ButtonModule, ConfirmPopupModule, RouterModule, NgxMaskDirective],
+  imports: [FieldsetModule, InputTextModule, TableModule, ButtonModule, ConfirmPopupModule, RouterModule, NgxMaskDirective, DialogModule,
+    PasswordModule, FormsModule
+  ],
   providers: [provideNgxMask()],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.scss'
@@ -26,7 +32,11 @@ export class UserDashboardComponent {
   messageService = inject(MessageService);
   confirmationService = inject(ConfirmationService);
   router = inject(Router);
+  visible: boolean = false;
+  selectedUser: User = this.userService.newUser();
+  confirmedPassword: string = '';
 
+  
   activityValues: number[] = [0, 100];
 
   isExpanded: boolean = false;
@@ -57,7 +67,7 @@ export class UserDashboardComponent {
       acceptButtonStyleClass: 'p-button-sm',
       accept: () => {
         this.userService.deleteUser(user.id).subscribe((res: any) => {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Usuário deletado com sucesso!' })
+          this.messageService.add({ severity: 'success', summary: 'Sucesso!', detail: 'Usuário deletado com sucesso!' })
           this.ngAfterViewInit();
         })
       },
@@ -79,4 +89,28 @@ export class UserDashboardComponent {
   addUser() {
     this.router.navigateByUrl('user/new');
   }
+
+  openDialogPassword(user: User) {
+    if(user.password === ''){
+      this.visible = true;
+      this.selectedUser = user;
+    }
+  }
+
+  hidePasswordDialog() {
+    this.selectedUser = this.userService.newUser();    
+  }
+
+  savePassword() {
+    if(this.selectedUser.password === this.confirmedPassword){
+      this.userService.insertPasswordUser(this.selectedUser).subscribe(res => {
+        this.messageService.add({ severity: 'success', summary: 'Sucesso!', detail: 'Senha criada com sucesso!' })
+      })
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Ops', detail: 'Senha divergentes!' })
+    }
+  }
+
+
+
 }

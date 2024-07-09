@@ -21,6 +21,14 @@ export class UserService {
     })
   }
 
+  insertPasswordUser(user: User): Observable<User> {
+    return this.http.put<User>(this.authUrl + '/user/password/'+user.id, user, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(this.authUrl + '/user/'+user.id, user, {
       headers: {
@@ -62,6 +70,7 @@ export class UserService {
       email: '',
       storeName: '',
       phone: '',
+      password: '',
       address: {
         cep: '',
         street: '',

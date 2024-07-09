@@ -67,12 +67,12 @@ export class CreateUserComponent {
     if (this.userForm.valid) {
       if(this.user.id == ''){
         this.userService.createUser(this.user).subscribe(() => { 
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Usuário cadastrado com sucesso!' })
+          this.messageService.add({ severity: 'success', summary: 'Sucesso!', detail: 'Usuário cadastrado com sucesso!' })
           this.router.navigateByUrl('/dashboard-user');
         });
       } else {
         this.userService.updateUser(this.user).subscribe(() => { 
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Usuário atualizado com sucesso!' })
+          this.messageService.add({ severity: 'success', summary: 'Sucesso!', detail: 'Usuário atualizado com sucesso!' })
           this.router.navigateByUrl('/dashboard-user');
         });
       }

@@ -7,6 +7,7 @@ export interface User {
         email: string,
         storeName: string,
         phone: string,
+        password: string,
         address: {
           cep: string,
           street: string,

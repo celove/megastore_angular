@@ -12,6 +12,7 @@ export class AuthService {
   private authUrl = 'http://localhost:8080/auth'; // Your API endpoint here
   // private authUrl = 'https://api.funtranslations.com/translate/'; // Your API endpoint here
   private tokenKey = 'access_token';
+  private cryptoKey = 'safeKey';
   router = inject(Router);
 
   http = inject(HttpClient);
@@ -29,8 +30,6 @@ export class AuthService {
         }
       })
     );
-    // this is just the HTTP call, 
-    // we still need to handle the reception of the token
   }
 
   logout(): void {
@@ -47,4 +46,5 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
+
 }

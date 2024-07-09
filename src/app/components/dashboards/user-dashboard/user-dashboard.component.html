@@ -24,7 +24,42 @@
                         
                         <td class="options">
 							<p-button icon="pi pi-eye" [rounded]="true" severity="info" [outlined]="true" [routerLink]="['/user', user.id]" />
-							<p-button class="delete-button" icon="pi pi-times" [rounded]="true" severity="danger" [outlined]="true" (click)="confirm($event, user)" />
+							<p-button class="option-button" icon="pi pi-lock" [rounded]="true" severity="warning" [outlined]="true" [disabled]="user.password !== '' ? true : false" (click)="openDialogPassword(user)"/>
+							<p-dialog header="Criar senha e banco?"  [(visible)]="visible" (onHide)="hidePasswordDialog()">
+								<span class="p-text-secondary block mb-5">Forneça uma senha forte.</span>
+								<span class="p-text-secondary block">Um banco de dados será criado com o nome {{selectedUser.storeName}} e</span>
+								<span class="p-text-secondary block "> o acesso ao MEGASTORE Seller será liberado para o usuário: </span>
+								<span class="p-text-secondary block mb-5"> {{selectedUser.name}} </span>
+								<div class="flex align-items-center gap-3 mb-3">
+									<label for="username" class="font-semibold w-6rem">Senha</label>
+									<p-password id="password"	
+														[(ngModel)]="selectedUser.password"
+														placeholder="Digite a Senha" 
+														[toggleMask]="true"  
+														styleClass="mb-5" 
+														inputStyleClass="w-full p-3 md:w-30rem" 
+														promptLabel="Escolha uma senha" 
+														weakLabel="Muito simples" 
+														mediumLabel="Médio" 
+														strongLabel="Forte"></p-password>
+											
+								</div>
+								<div class="flex align-items-center gap-3 mb-5">
+									<label for="email" class="font-semibold w-6rem">Confirmação</label>
+									<p-password id="confirmPassword" 
+														[(ngModel)]="confirmedPassword"
+														placeholder="Confirme a Senha" 
+														[toggleMask]="true"  
+														styleClass="mb-5" 
+														inputStyleClass="w-full p-3 md:w-30rem" 
+														[feedback]="false"></p-password>
+								</div>
+								<div class="flex justify-content-end gap-2">
+									<p-button label="Cancel" severity="secondary" (click)="visible = false" />
+									<p-button label="Save" (click)="savePassword()" />
+								</div>
+							</p-dialog>
+							<p-button class="option-button" icon="pi pi-times" [rounded]="true" severity="danger" [outlined]="true" (click)="confirm($event, user)" />
 						</td>
 					</tr>
 				</ng-template>
@@ -43,3 +78,7 @@
         </div>
     </ng-template>
 </p-confirmPopup>
+
+
+
+
