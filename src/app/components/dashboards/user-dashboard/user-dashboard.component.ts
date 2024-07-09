@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FieldsetModule } from 'primeng/fieldset';
 import { TableModule } from 'primeng/table';
 import { User } from '../../../models/User';
@@ -10,8 +10,9 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { NgxMaskDirective, NgxMaskService, provideNgxMask } from 'ngx-mask';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { DialogModule } from 'primeng/dialog';
+import { Dialog, DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
+import { LoadingService } from '../../../services/auth/loading.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -30,6 +31,7 @@ export class UserDashboardComponent {
   rowGroupMetadata: any;
   userService = inject(UserService);
   messageService = inject(MessageService);
+  loadingService = inject(LoadingService);
   confirmationService = inject(ConfirmationService);
   router = inject(Router);
   visible: boolean = false;
@@ -45,12 +47,19 @@ export class UserDashboardComponent {
 
   loading: boolean = true;
 
-  @ViewChild('filter') filter!: ElementRef;
+  @ViewChild('dialog') dialog!: Dialog;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
 
   ngAfterViewInit() {
     this.userService.getUsers().subscribe((res: User[]) => {
       this.users = res;
+    })
+
+    this.loadingService.isLoading.subscribe(il => {
+      this.loading = il;
+      this.cdr.detectChanges();
     })
   }
 
@@ -101,10 +110,12 @@ export class UserDashboardComponent {
     this.selectedUser = this.userService.newUser();    
   }
 
-  savePassword() {
+  savePassword(event: Event) {
     if(this.selectedUser.password === this.confirmedPassword){
       this.userService.insertPasswordUser(this.selectedUser).subscribe(res => {
         this.messageService.add({ severity: 'success', summary: 'Sucesso!', detail: 'Senha criada com sucesso!' })
+        this.selectedUser = this.userService.newUser();
+        this.dialog.close(event);
       })
     } else {
       this.messageService.add({ severity: 'error', summary: 'Ops', detail: 'Senha divergentes!' })
